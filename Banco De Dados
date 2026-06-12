@@ -1,0 +1,74 @@
+// Array de tarefas
+let tarefas = [
+    { id: 1, descricao: "Estudar JavaScript", prioridade: 5 },
+    { id: 2, descricao: "Fazer exercícios", prioridade: 3 },
+    { id: 3, descricao: "Entregar trabalho", prioridade: 4 },
+    { id: 4, descricao: "Organizar arquivos", prioridade: 2 },
+    { id: 5, descricao: "Responder e-mails", prioridade: 1 }
+];
+
+// Função para listar tarefas
+function listarTarefas() {
+    console.log("=== LISTA DE TAREFAS ===");
+    tarefas.forEach(tarefa => {
+        console.log(
+            `ID: ${tarefa.id} | Descrição: ${tarefa.descricao} | Prioridade: ${tarefa.prioridade}`
+        );
+    });
+}
+
+// Selection Sort (mais urgente para menos urgente)
+function ordenarTarefas() {
+    for (let i = 0; i < tarefas.length - 1; i++) {
+        let maior = i;
+
+        for (let j = i + 1; j < tarefas.length; j++) {
+            if (tarefas[j].prioridade > tarefas[maior].prioridade) {
+                maior = j;
+            }
+        }
+
+        let temp = tarefas[i];
+        tarefas[i] = tarefas[maior];
+        tarefas[maior] = temp;
+    }
+}
+
+// Busca Binária por ID
+function buscaBinaria(id) {
+    let listaOrdenada = [...tarefas].sort((a, b) => a.id - b.id);
+
+    let inicio = 0;
+    let fim = listaOrdenada.length - 1;
+
+    while (inicio <= fim) {
+        let meio = Math.floor((inicio + fim) / 2);
+
+        if (listaOrdenada[meio].id === id) {
+            return listaOrdenada[meio];
+        }
+
+        if (listaOrdenada[meio].id < id) {
+            inicio = meio + 1;
+        } else {
+            fim = meio - 1;
+        }
+    }
+
+    return null;
+}
+
+// Testes
+listarTarefas();
+
+console.log("\n=== TAREFAS ORDENADAS ===");
+ordenarTarefas();
+listarTarefas();
+
+console.log("\n=== BUSCA POR ID ===");
+let tarefaEncontrada = buscaBinaria(3);
+
+if (tarefaEncontrada) {
+    console.log(tarefaEncontrada);
+} else {
+    console.log("Tarefa não encontrada.");
